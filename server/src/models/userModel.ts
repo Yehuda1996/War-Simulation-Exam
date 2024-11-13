@@ -19,7 +19,7 @@ export interface IUser extends Document {
     _id: Types.ObjectId
     username: string,
     password: string,
-    organization: Organization,
+    organization: Organization | string,
     area?: Area
 }
 
