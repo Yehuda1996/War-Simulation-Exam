@@ -4,6 +4,7 @@ import cors from 'cors';
 import { createServer } from 'http';
 import connnectDb from './config/db';
 import userRoutes from './routes/userRoutes';
+import organizationRoutes from './routes/organizationRoutes'
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 connnectDb();
 
 app.use('/api', userRoutes);
+app.use('/api', organizationRoutes);
 
 httpServer.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)

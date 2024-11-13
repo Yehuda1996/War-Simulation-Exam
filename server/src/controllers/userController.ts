@@ -55,13 +55,6 @@ export const register = async (req: Request, res: Response) => {
             return;
         }
 
-        if (organization === Organization.idf && area){
-            if (area !== Area){
-                res.status(400).json("Area must be from the given list");
-                return;
-            }
-        }
-
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new userModel(
