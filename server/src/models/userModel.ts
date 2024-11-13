@@ -16,6 +16,7 @@ export enum Area {
 }
 
 export interface IUser extends Document {
+    _id: Types.ObjectId
     username: string,
     password: string,
     organization: Organization,
@@ -42,7 +43,13 @@ const UserSchema = new Schema<IUser>({
     },
     area: {
         type: String,
-        enum: Object.values(Area)
+        enum: Object.values(Area),
+        validate: {
+            validator: function (value: Area | undefined) {
+                return (this.organization !== Organization.idf || value !== undefined);
+            },
+            message: 'IDF users must select an area.'
+        }
     }
 })
 
