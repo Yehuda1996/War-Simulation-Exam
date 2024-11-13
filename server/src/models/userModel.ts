@@ -1,6 +1,6 @@
 import mongoose, {Schema, Types} from "mongoose";
 
-enum Organization{
+export enum Organization{
     idf = 'IDF',
     hezbollah = "Hezbollah",
     hamas = "Hamas",
@@ -8,7 +8,7 @@ enum Organization{
     houthis = "Houthis"
 }
 
-enum Area {
+export enum Area {
     north = "North",
     south = "South",
     center = "Center",

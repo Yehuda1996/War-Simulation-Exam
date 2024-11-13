@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import userModel from "../models/userModel";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken"; 
+import { Organization, Area } from "../models/userModel";
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default-secret';
 
@@ -48,6 +49,18 @@ export const register = async (req: Request, res: Response) => {
         if(existingUser) {
             res.status(400).json("Username already exists");
             return;
+        }
+
+        if (organization === Organization.idf && !area) {
+            res.status(400).json("Area must be selected when organization is IDF");
+            return;
+        }
+
+        if (organization === Organization.idf && area){
+            if (area !== Area){
+                res.status(400).json("Area must be from the given list");
+                return;
+            }
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
