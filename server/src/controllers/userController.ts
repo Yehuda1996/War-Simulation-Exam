@@ -44,7 +44,7 @@ export const register = async (req: Request, res: Response) => {
             return;
         }
 
-        const existingUser = await userModel.findOne(username);
+        const existingUser = await userModel.findOne({username});
         if(existingUser) {
             res.status(400).json("Username already exists");
             return;
