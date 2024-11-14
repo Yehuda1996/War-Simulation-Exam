@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { User } from "../../../types/types";
+import { User, Status } from "../../../types/types";
 
-type Status = "idle" | "pending" | "fulfilled" | "rejected";
 
 interface UserStateType {
     user: User | null,
