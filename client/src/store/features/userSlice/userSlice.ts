@@ -19,18 +19,23 @@ const initialState: UserStateType = {
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const loginUser  = createAsyncThunk('user/loginUser ',
+export const loginUser = createAsyncThunk(
+    'user/loginUser',
     async (userData: { username: string, password: string }): Promise<{ user: User; token: string } | undefined> => {
-        try {
-            const response = await axios.post(`${BASE_URL}/login`, userData);
-            localStorage.setItem('token', response.data.token);
-            return response.data;
-        } 
-        catch (error) {
-            console.error(error);
+      try {
+        const response = await axios.post(`${BASE_URL}/login`, userData);
+        console.log('API Response:', response.data);  // Log the response to check the structure
+        if (response.data && response.data.user && response.data.token) {
+          localStorage.setItem('token', response.data.token);
+          return response.data; // Ensure both user and token are returned
+        } else {
+          console.error("User data or token is missing from response.");
         }
+      } catch (error) {
+        console.error("Login error:", error);
+      }
     }
-);
+  );
 
 export const registerUser  = createAsyncThunk('user/registerUser ', 
     async (userData: { username: string, password: string, organization: string, area?: string }): Promise<{ user: User} | undefined> => {

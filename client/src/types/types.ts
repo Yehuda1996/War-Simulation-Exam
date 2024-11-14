@@ -6,11 +6,16 @@ export interface User {
     area?: string
 }
 
+export interface Resource {
+    name: string;
+    amount: number;
+}
+
 export interface Organization {
-    _id: string,
-    name: string,
-    recources: [Object]
-    budget: number
+    _id: string; 
+    name: string;
+    resources: Resource[]; 
+    budget: number;
 }
 
 export type Status = "idle" | "pending" | "fulfilled" | "rejected";

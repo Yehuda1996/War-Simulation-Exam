@@ -6,7 +6,7 @@ import { verifyToken } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
-router.post('/attack', verifyToken, launchAttack);
-router.post('/defense', verifyToken, attemptDefense);
+router.post('/attack', launchAttack);
+router.post('/defense', attemptDefense);
 
 export default router;

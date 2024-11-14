@@ -2,39 +2,46 @@ import { Request, Response } from "express";
 import userModel, { Organization, Area } from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"; 
+import { generateToken } from "../utils/tokenUtils";
 
 const JWT_SECRET = process.env.JWT_SECRET || 'default-secret';
 
 export const login = async (req: Request, res: Response) => {
     try {
-        const {username, password} = req.body;
-        if (!username || !password){
-            res.status(400).json("Username and password are required");
+        const { username, password } = req.body;
+        
+        // Find the user by username
+        const user = await userModel.findOne({ username });
+        
+        if (!user) {
+            res.status(404).json({ message: "User not found" });
             return;
         }
 
-        const user = await userModel.findOne({username});
-        if(!user){
-            res.status(400).json("No username found with this username");
+        // Verify the password (assuming you have a method on your User model)
+        const isPasswordValid = await bcrypt.compare(password, user.password) // Replace with actual password check
+        if (!isPasswordValid) {
+            res.status(401).json({ message: "Invalid password" });
             return;
         }
-        else {
-            const passwordValidity = await bcrypt.compare(password, user.password);
-            if(!passwordValidity){
-                res.status(400).json({message: 'Invalid password'});
-                return
+
+        // Generate the token (replace with your JWT token generation logic)
+        const token = generateToken(user);
+
+        // Send back the response with token and user data
+        res.json({
+            token,
+            user: {
+                id: user._id,
+                username: user.username,
+                organization: user.organization,
             }
-        }
-
-        const token = jwt.sign({id: user._id}, JWT_SECRET, {expiresIn: '1h'});
-
-        res.status(200).json({message: "Login successful", token})
-    } 
-    catch (error: any) {
-        res.status(500).json({ message: "Server error", error: error.message })
-        return;
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error", error });
     }
-}
+};
 
 export const register = async (req: Request, res: Response) => {
     try {

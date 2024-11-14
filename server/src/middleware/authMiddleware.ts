@@ -20,7 +20,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        req.userId = (decoded as any)._id; 
+        req.userId = (decoded as any).username; 
         next();
     } catch (error) {
         res.status(401).json({ message: "Invalid token." })

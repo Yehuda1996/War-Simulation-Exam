@@ -15,27 +15,28 @@ const LoginPage: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(loginUser({username, password})).then((action) => {
-            if(loginUser.fulfilled.match(action)) {
+        dispatch(loginUser({ username, password })).then((action) => {
+            console.log("Login action result:", action);
+            if (loginUser.fulfilled.match(action)) {
                 const token = action.payload?.token;
-                if (!token){
-                    console.error("Login successful but token is undefined.")
+                if (!token) {
+                    console.error("Login successful but token is undefined.");
                 }
                 localStorage.setItem('token', token as string);
-                
+        
                 const organization = action.payload?.user.organization;
                 if (organization === "IDF") {
                     navigate('/defense');
+                } else {
+                    navigate('/attack');
                 }
-                else{
-                    navigate('/offense');
-                }
-            }
-            else {
+            } else {
                 console.error("Login failed", action.error);
             }
-        })
-    }
+        });
+        
+    };
+    
 
   return (
     <div className='login-container'>
