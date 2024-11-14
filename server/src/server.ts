@@ -4,7 +4,8 @@ import cors from 'cors';
 import { createServer } from 'http';
 import connnectDb from './config/db';
 import userRoutes from './routes/userRoutes';
-import organizationRoutes from './routes/organizationRoutes'
+import organizationRoutes from './routes/organizationRoutes';
+import missileRoutes from './routes/missileRoutes'
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ connnectDb();
 
 app.use('/api', userRoutes);
 app.use('/api', organizationRoutes);
+app.use('/api', missileRoutes);
 
 httpServer.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
