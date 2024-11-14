@@ -1,6 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
-const missileSchema = new mongoose.Schema({
+export interface IMissle extends Document {
+    name: string;
+    description: string;
+    speed: number;
+    intercepts: string[];
+    price: number
+}
+
+const missileSchema = new Schema<IMissle>({
   name: {
     type: String,
     required: true,
@@ -26,6 +34,5 @@ const missileSchema = new mongoose.Schema({
   },
 });
 
-const Missile = mongoose.model('Missile', missileSchema);
+export default mongoose.model<IMissle>('Missile', missileSchema);
 
-export default Missile;
