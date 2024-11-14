@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { User } from "../../types/types";
+import { User } from "../../../types/types";
 
 type Status = "idle" | "pending" | "fulfilled" | "rejected";
 
@@ -34,7 +34,7 @@ export const loginUser  = createAsyncThunk('user/loginUser ',
 );
 
 export const registerUser  = createAsyncThunk('user/registerUser ', 
-    async (userData: { username: string, password: string, organization: string, area?: string }): Promise<{ user: User; token: string } | undefined> => {
+    async (userData: { username: string, password: string, organization: string, area?: string }): Promise<{ user: User} | undefined> => {
         try {
             const response = await axios.post(`${BASE_URL}/register`, userData);
             return response.data;
@@ -65,7 +65,6 @@ export const userSlice = createSlice({
         .addCase(loginUser .fulfilled, (state, action) => {
             if (action.payload) { 
                 state.user = action.payload.user;
-                state.token = action.payload.token; 
                 state.status = 'fulfilled';
             } else {
                 state.error = 'Login failed';
@@ -74,7 +73,6 @@ export const userSlice = createSlice({
         .addCase(registerUser .fulfilled, (state, action) => {
             if (action.payload) { 
                 state.user = action.payload.user;
-                state.token = action.payload.token; 
                 state.status = 'fulfilled';
             } else {
                 state.error = 'Registration failed'; 

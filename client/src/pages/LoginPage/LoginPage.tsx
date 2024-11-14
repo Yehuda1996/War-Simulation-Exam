@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import { AppDispatch } from '../../store/store'
-import { loginUser } from '../../store/userSlice/userSlice'
+import { loginUser } from '../../store/features/userSlice/userSlice'
 
 const LoginPage: React.FC = () => {
 
